@@ -1,6 +1,19 @@
-*.csv
+# Environments
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data & Logs
+data/
 *.log
 *.json
-venv/
-__pycache__/
-.env
+
+# OS
+.DS_Store
+Thumbs.db

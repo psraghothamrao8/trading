@@ -1,4 +1,0 @@
-He looks for trades 5% below moving avg. 
-he sells his trades at 2% above moving average
-He uses the 20 and / or 50 day moving average
-

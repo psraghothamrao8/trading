@@ -21,7 +21,7 @@ The system utilizes a hybrid approach to market participation:
 *   **Timeframe:** 15-minute resolution.
 *   **Execution Frequency:** 300-second polling interval.
 *   **Target ROI:** 1.2% asset price movement (equivalent to ~2.4% equity return at 2x leverage).
-*   **Infrastructure:** Python-based engine utilizing `ccxt` for exchange connectivity and `ta-lib` for technical analysis.
+*   **Infrastructure:** Python-based engine utilizing `ccxt`, `pandas`, and `ta`.
 
 ## 🚀 Deployment & Installation
 
@@ -43,7 +43,7 @@ Configure your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` within the `.env` fil
 ### 3. Execution
 Initialize the trading engine:
 ```bash
-python trading_notifier.py
+python main.py
 ```
 
 ## 📊 Operational Workflow
