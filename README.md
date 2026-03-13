@@ -1,54 +1,55 @@
-# Crypto Trading Notifier 📈
+# The Omni-Directional Margin Engine (V59) 📈
 
-An autonomous crypto trading signal application based on historical quantitative analysis.
+An autonomous, multi-asset crypto trading system designed for consistent **2.4% net equity profit** per cycle using **2x Spot Margin**.
 
-## Overview
-This application monitors **ETH/USDT** on Binance using a proven MACD and RSI crossover strategy on a 1-hour timeframe to filter out noise. It produces completely objective **BUY** and **SELL** signals.
+## 🚀 Overview
+Transitioned from simple spot trading to a sophisticated long/short margin harvesting system. This engine is designed to generate a consistent "salary" from the crypto markets, regardless of whether the trend is bullish or bearish.
 
-**Why ETH/USDT?**
-It is one of the most liquid, stable, and fundamentally strong cryptocurrencies. For a ₹30,000 spot trading portfolio, it offers the best balance of safety and profit potential without the extreme risks associated with low-cap coins.
+**The "Titan Six" Basket:**
+The bot monitors a diversified basket of high-liquidity assets:
+*   **BTC, ETH, SOL, AVAX, DOGE, SUI**
 
-## Strategy
-*   **Buy:** MACD Bullish Crossover + RSI below 70 (Not overbought).
-*   **Sell:** MACD Bearish Crossover + RSI above 30 (Not oversold).
-*   Read `STRATEGY.md` for full details.
+## 🧠 Strategy: V59 Logic
+*   **Macro Filtering:** Uses an **800-period EMA** (15m timeframe) to determine the macro regime.
+    *   **Above 800 EMA:** Bull Market -> Only **Long** trades (borrow USDT to buy).
+    *   **Below 800 EMA:** Bear Market -> Only **Short** trades (borrow coin to sell).
+*   **Entry Precision:**
+    *   **Long:** Wait for an RSI "Panic Dip" (< 35).
+    *   **Short:** Wait for an RSI "Greed Spike" (> 65).
+*   **Safety Nets (DCA):** Employs an **ATR-based DCA grid** (up to 4 safety bullets) to catch true bottoms/tops during pullbacks.
+*   **Profit Target:** Aims for a **1.2% market move**, which results in **~2.4% profit** on 2x leveraged capital.
+*   **Capital Management:** Fixed $360 portfolio, split into 6 buckets. Non-compounding strategy ensures profits are extracted and risk is capped.
 
-## Setup Instructions
+## 🛠️ Setup Instructions
 
 ### 1. Prerequisites
-Ensure you have Python 3 installed on your system.
-```bash
-python3 --version
-```
+Ensure you have Python 3.8+ installed.
 
 ### 2. Install Dependencies
-Install the required Python packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Optional: Setup Telegram Notifications (Recommended)
-If you want the app to send signals directly to your phone, you can configure Telegram notifications:
-1.  Open Telegram, search for `@BotFather`, and create a new bot to get a **Bot Token**.
-2.  Search for `@userinfobot` to get your **Chat ID**.
-3.  Copy the `.env.example` file to `.env`:
-    ```bash
-    cp .env.example .env
-    ```
-4.  Edit the `.env` file and paste your Token and Chat ID.
-
-### 4. Run the Application
-Start the notifier. It will run continuously in the background, checking the market every 5 minutes and outputting signals when the specific strategy conditions are met.
+### 3. Configure Environment Variables
+Copy the example environment file and fill in your Telegram credentials:
 ```bash
-python3 trading_notifier.py
+cp .env.example .env
 ```
+Edit `.env` and add:
+*   `TELEGRAM_BOT_TOKEN`: Your bot token from @BotFather.
+*   `TELEGRAM_CHAT_ID`: Your chat ID from @userinfobot.
 
-## How to Trade with the Signals
-1. Wait for the app to output a `🟢 BUY SIGNAL`.
-2. Open your Binance app and buy **ETH** using your ₹30,000 (USDT equivalent) in the **Spot** market. *(Tip: You can split your buys, e.g., buy with ₹15,000 first, and keep ₹15,000 to average down if the price drops further).*
-3. Hold your ETH patiently.
-4. When the app outputs a `🔴 SELL SIGNAL`, open Binance and sell your ETH back to USDT to secure profits (or cut losses).
+### 4. Run the Engine
+```bash
+python trading_notifier.py
+```
+The bot will check the markets every 5 minutes and send actionable signals to your Telegram.
 
-**Important:** Keep this script running on a server or your PC so it never misses a signal!
+## 📊 How to Trade
+When you receive a signal via Telegram:
+1.  **🟢 OPEN MARGIN LONG:** Borrow USDT on Binance Margin, buy the coin.
+2.  **🔴 OPEN MARGIN SHORT:** Borrow the Coin on Binance Margin, sell it to USDT.
+3.  **🏁 CLOSE MARGIN:** Repay the loan on Binance to lock in your profit.
 
-*Disclaimer: This is for educational and experimental purposes. Do not use leverage (Futures/Options) with this strategy. Stick exclusively to Spot trading.*# trading
+## ⚠️ Disclaimer
+*This is for educational and experimental purposes. Margin trading involves risk. While 2x leverage is conservative, always monitor your liquidation prices and never trade with money you cannot afford to lose.*
