@@ -1,55 +1,56 @@
-# The Omni-Directional Margin Engine (V59) 📈
+# Omni-Directional Margin Trading System (V59)
 
-An autonomous, multi-asset crypto trading system designed for consistent **2.4% net equity profit** per cycle using **2x Spot Margin**.
+A quantitative crypto-asset trading engine designed for multi-asset execution using Binance Spot Margin. This system implements a dual-directional strategy (Long/Short) to capture returns across varying market regimes.
 
-## 🚀 Overview
-Transitioned from simple spot trading to a sophisticated long/short margin harvesting system. This engine is designed to generate a consistent "salary" from the crypto markets, regardless of whether the trend is bullish or bearish.
+## 🏛️ System Architecture
 
-**The "Titan Six" Basket:**
-The bot monitors a diversified basket of high-liquidity assets:
-*   **BTC, ETH, SOL, AVAX, DOGE, SUI**
+### 1. Trend-Following & Mean Reversion
+The system utilizes a hybrid approach to market participation:
+*   **Macro Regime Filtering:** An 800-period Exponential Moving Average (EMA) on the 15-minute timeframe defines the primary trend.
+*   **Tactical Execution:** Relative Strength Index (RSI) thresholds are used to identify mean-reversion opportunities within the defined trend.
+    *   **Bullish Regime (Price > 800 EMA):** Executes long positions on RSI pullbacks (< 35).
+    *   **Bearish Regime (Price < 800 EMA):** Executes short positions on RSI extensions (> 65).
 
-## 🧠 Strategy: V59 Logic
-*   **Macro Filtering:** Uses an **800-period EMA** (15m timeframe) to determine the macro regime.
-    *   **Above 800 EMA:** Bull Market -> Only **Long** trades (borrow USDT to buy).
-    *   **Below 800 EMA:** Bear Market -> Only **Short** trades (borrow coin to sell).
-*   **Entry Precision:**
-    *   **Long:** Wait for an RSI "Panic Dip" (< 35).
-    *   **Short:** Wait for an RSI "Greed Spike" (> 65).
-*   **Safety Nets (DCA):** Employs an **ATR-based DCA grid** (up to 4 safety bullets) to catch true bottoms/tops during pullbacks.
-*   **Profit Target:** Aims for a **1.2% market move**, which results in **~2.4% profit** on 2x leveraged capital.
-*   **Capital Management:** Fixed $360 portfolio, split into 6 buckets. Non-compounding strategy ensures profits are extracted and risk is capped.
+### 2. Risk Mitigation & Position Sizing
+*   **Asset Diversification:** Capital is distributed across a high-liquidity basket (BTC, ETH, SOL, AVAX, DOGE, SUI).
+*   **Dynamic Grid Logic:** Implements an Average True Range (ATR) based DCA (Dollar-Cost Averaging) model with up to 4 safety layers to mitigate volatility-induced drawdown.
+*   **Conservative Leverage:** Operates at 2x Spot Margin, significantly reducing liquidation risks compared to traditional futures derivatives.
+*   **Capital Preservation:** A non-compounding allocation model ensures that realized profits are isolated from the primary trading capital.
 
-## 🛠️ Setup Instructions
+## ⚙️ Technical Specifications
+*   **Timeframe:** 15-minute resolution.
+*   **Execution Frequency:** 300-second polling interval.
+*   **Target ROI:** 1.2% asset price movement (equivalent to ~2.4% equity return at 2x leverage).
+*   **Infrastructure:** Python-based engine utilizing `ccxt` for exchange connectivity and `ta-lib` for technical analysis.
 
-### 1. Prerequisites
-Ensure you have Python 3.8+ installed.
+## 🚀 Deployment & Installation
 
-### 2. Install Dependencies
+### 1. Environment Setup
+The system requires Python 3.8+ and a dedicated virtual environment.
 ```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Configure Environment Variables
-Copy the example environment file and fill in your Telegram credentials:
+### 2. Configuration
+The engine requires environment variables for secure notification handling:
 ```bash
 cp .env.example .env
 ```
-Edit `.env` and add:
-*   `TELEGRAM_BOT_TOKEN`: Your bot token from @BotFather.
-*   `TELEGRAM_CHAT_ID`: Your chat ID from @userinfobot.
+Configure your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` within the `.env` file to receive real-time execution alerts.
 
-### 4. Run the Engine
+### 3. Execution
+Initialize the trading engine:
 ```bash
 python trading_notifier.py
 ```
-The bot will check the markets every 5 minutes and send actionable signals to your Telegram.
 
-## 📊 How to Trade
-When you receive a signal via Telegram:
-1.  **🟢 OPEN MARGIN LONG:** Borrow USDT on Binance Margin, buy the coin.
-2.  **🔴 OPEN MARGIN SHORT:** Borrow the Coin on Binance Margin, sell it to USDT.
-3.  **🏁 CLOSE MARGIN:** Repay the loan on Binance to lock in your profit.
+## 📊 Operational Workflow
+The engine provides high-fidelity signals via Telegram for manual or semi-automated execution on the Binance Margin interface:
+1.  **Long Entry:** Borrow USDT to establish a long position.
+2.  **Short Entry:** Borrow the base asset to establish a short position.
+3.  **Position Liquidation:** Utilize the "Repay" function to close positions and realize PnL.
 
-## ⚠️ Disclaimer
-*This is for educational and experimental purposes. Margin trading involves risk. While 2x leverage is conservative, always monitor your liquidation prices and never trade with money you cannot afford to lose.*
+## ⚖️ Disclaimer
+This software is provided for educational and research purposes. Quantitative trading involves significant risk. The 2x leverage model is designed for risk mitigation, but market volatility can lead to capital loss. Users should perform their own due diligence before deploying capital.
